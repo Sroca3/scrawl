@@ -1,5 +1,5 @@
 plugins {
-    id 'java-library'
+    id 'java'
     id 'maven-publish'
     id 'signing'
 }
@@ -30,13 +30,11 @@ javadoc {
 }
 
 task sourceJar(type: Jar) {
-    archiveClassifier = 'sources'
     from sourceSets.main.allJava
 }
 
 task javadocJar(type: Jar) {
     from javadoc
-    archiveClassifier = 'javadoc'
 }
 
 test {
