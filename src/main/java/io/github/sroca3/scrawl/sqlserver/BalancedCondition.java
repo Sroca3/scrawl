@@ -1,15 +1,17 @@
 package io.github.sroca3.scrawl.sqlserver;
 
+import io.github.sroca3.scrawl.sqlserver.schema.Condition;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public class BalancedCondition {
+public class BalancedCondition implements Condition {
     private String condition;
     private String lhs;
     private String operator;
     private Object parameter;
     private String logicalOperator;
-    private final List<BalancedCondition> conditions = new LinkedList<>();
+    private final List<Condition> conditions = new LinkedList<>();
 
     public BalancedCondition(String condition) {
         this.condition = condition;
@@ -37,14 +39,16 @@ public class BalancedCondition {
         return this.condition;
     }
 
-    public BalancedCondition or(BalancedCondition condition) {
-        condition.setLogicalOperator("OR");
+    @Override
+    public Condition or(Condition condition) {
+        ((BalancedCondition)condition).setLogicalOperator("OR");
         conditions.add(condition);
         return this;
     }
 
-    public BalancedCondition and(BalancedCondition condition) {
-        condition.setLogicalOperator("AND");
+    @Override
+    public Condition and(Condition condition) {
+        ((BalancedCondition)condition).setLogicalOperator("AND");
         conditions.add(condition);
         return this;
     }
@@ -53,7 +57,7 @@ public class BalancedCondition {
         this.logicalOperator = logicalOperator;
     }
 
-    public List<BalancedCondition> getConditions() {
+    public List<Condition> getConditions() {
         return List.copyOf(conditions);
     }
 

@@ -1,5 +1,6 @@
 package io.github.sroca3.scrawl.sqlserver;
 
+import io.github.sroca3.scrawl.sqlserver.schema.Condition;
 import io.github.sroca3.scrawl.sqlserver.schema.Table;
 
 import java.util.Map;
@@ -32,7 +33,7 @@ public class FromClause implements TerminatingClause {
         return this;
     }
 
-    public TerminatingClause where(BalancedCondition condition) {
+    public TerminatingClause where(Condition condition) {
         sqlBuilder.addConditionToWhereClause(condition);
         return this;
     }
