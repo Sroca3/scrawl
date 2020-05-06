@@ -27,7 +27,7 @@ public class QueryTest {
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
-                select().star().from("City").where(lhs("Country").eq(":country").build()).getSql()
+                select().star().from("City").where(lhs("Country").eq(":country")).getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
@@ -63,7 +63,7 @@ public class QueryTest {
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
-                select().star().from("City").where(lhs("Country").eq(":country").build()).getSql()
+                select().star().from("City").where(lhs("Country").eq(":country")).getSql()
             ),
             Arguments.of(
                 "SELECT c.Name FROM City c",

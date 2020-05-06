@@ -1,8 +1,9 @@
 package io.github.sroca3.scrawl.sqlserver;
 
 import io.github.sroca3.scrawl.sqlserver.schema.Condition;
+import io.github.sroca3.scrawl.sqlserver.schema.Expression;
 
-public class SearchCondition implements Condition {
+public class SearchCondition implements Expression {
 
     private String condition;
 
@@ -15,7 +16,7 @@ public class SearchCondition implements Condition {
     }
 
     @Override
-    public BalancedCondition eq(Object parameter) {
-        return new BalancedCondition(condition + " = " + parameter);
+    public Condition eq(Object parameter) {
+        return new BalancedCondition(condition, "=", parameter);
     }
 }
