@@ -2,10 +2,10 @@ package io.github.sroca3.scrawl.sqlserver.schema;
 
 import io.github.sroca3.scrawl.sqlserver.BalancedCondition;
 
-public class GenericColumn implements Column {
+public class SimpleColumn implements Column {
     private final String columnName;
 
-    public GenericColumn(String columnName) {
+    public SimpleColumn(String columnName) {
         this.columnName = columnName;
     }
 
@@ -15,7 +15,12 @@ public class GenericColumn implements Column {
     }
 
     @Override
-    public BalancedCondition eq(Object parameter) {
+    public Condition eq(Object parameter) {
         return new BalancedCondition(getName(), "=", parameter);
+    }
+
+    @Override
+    public Condition neq(Object parameter) {
+        return new BalancedCondition(getName(), "!=", parameter);
     }
 }

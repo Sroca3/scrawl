@@ -19,4 +19,9 @@ public class SearchCondition implements Expression {
     public Condition eq(Object parameter) {
         return new BalancedCondition(condition, "=", parameter);
     }
+
+    @Override
+    public Condition neq(Object parameter) {
+        return new BalancedCondition(condition, "!=", parameter);
+    }
 }

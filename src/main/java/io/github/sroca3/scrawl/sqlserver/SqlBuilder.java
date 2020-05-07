@@ -3,7 +3,7 @@ package io.github.sroca3.scrawl.sqlserver;
 import io.github.sroca3.scrawl.sqlserver.schema.AbstractTable;
 import io.github.sroca3.scrawl.sqlserver.schema.Column;
 import io.github.sroca3.scrawl.sqlserver.schema.Condition;
-import io.github.sroca3.scrawl.sqlserver.schema.GenericColumn;
+import io.github.sroca3.scrawl.sqlserver.schema.SimpleColumn;
 import io.github.sroca3.scrawl.sqlserver.schema.Table;
 
 import java.util.Collections;
@@ -27,7 +27,7 @@ public class SqlBuilder {
     private Table<?> rootTable;
     private String whereClause = "";
     private String orderByClause = "";
-    private Map<String, Object> parameterMap = new HashMap<>();
+    private Parameters parameters = new Parameters();
 
     public void markAsSelectQuery() {
         this.isSelectQuery = true;
@@ -85,7 +85,7 @@ public class SqlBuilder {
     }
 
     public void addColumnNames(List<String> columns) {
-        this.columns = columns.parallelStream().map(GenericColumn::new).collect(toList());
+        this.columns = columns.parallelStream().map(SimpleColumn::new).collect(toList());
     }
 
     public void addRootTable(String tableName) {
@@ -105,29 +105,9 @@ public class SqlBuilder {
     }
 
     public void addConditionToWhereClause(Condition condition1) {
-        BalancedCondition condition = (BalancedCondition) condition1;
-        StringBuilder builder = new StringBuilder(whereClause);
-        if (isNotBlank(condition.getLogicalOperator())) {
-            builder.append(SPACE)
-                   .append(condition.getLogicalOperator())
-                   .append(SPACE);
-        }
-        builder.append(condition.getLhs())
-               .append(SPACE)
-               .append(condition.getOperator())
-               .append(SPACE);
-        if (condition.getParameter() instanceof String && String.valueOf(condition.getParameter()).startsWith(":")) {
-            builder.append(condition.getParameter());
-        } else {
-            String parameter = COLON + condition.getLhs().toLowerCase(Locale.ENGLISH);
-            if (parameterMap.keySet().contains(parameter)) {
-                parameter += "1";
-            }
-            parameterMap.put(parameter, condition.getParameter());
-            builder.append(parameter);
-        }
-        this.whereClause = builder.toString();
-        condition.getConditions().forEach(this::addConditionToWhereClause);
+        condition1.setInitialParameters(this.parameters);
+        this.whereClause = condition1.getSql();
+        this.parameters = condition1.getParameters();
     }
 
     public void addOrderByClause(String[] columns) {
@@ -135,7 +115,7 @@ public class SqlBuilder {
     }
 
     public Map<String, Object> getParameterMap() {
-        return Map.copyOf(this.parameterMap);
+        return parameters.toMap();
     }
 
     private static class GenericTable extends AbstractTable<GenericTable> {

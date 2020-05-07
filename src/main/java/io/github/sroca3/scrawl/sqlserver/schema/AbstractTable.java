@@ -31,9 +31,9 @@ public abstract class AbstractTable<T extends Table<T>> implements Table<T> {
 
     protected Column column(String columnName) {
         if (getAlias() != null) {
-            return new GenericColumn(String.join(".", getAlias(), columnName));
+            return new SimpleColumn(String.join(".", getAlias(), columnName));
         }
-        return new GenericColumn(columnName);
+        return new SimpleColumn(columnName);
     }
 
     public abstract Column[] columns();

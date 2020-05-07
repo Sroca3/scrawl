@@ -89,6 +89,17 @@ public class QueryTest {
                             CITY.name().eq("Atlanta").or(CITY.name().eq("Baltimore"))
                         )
                         .getSql()
+            ),
+            Arguments.of(
+                "SELECT * FROM City WHERE Name = :name OR Name = :name1 AND Name != :name2",
+                select().star()
+                        .from(CITY)
+                        .where(
+                            CITY.name().eq("Atlanta")
+                                .or(CITY.name().eq("Baltimore")
+                                        .and(CITY.name().neq("Washington")))
+                        )
+                        .getSql()
             )
         );
     }

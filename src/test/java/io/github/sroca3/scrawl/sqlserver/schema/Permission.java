@@ -12,7 +12,7 @@ public class Permission extends AbstractTable<Permission> {
     }
 
     public Column name() {
-        return new GenericColumn(String.join(".",getAlias(), "Name"));
+        return new SimpleColumn(String.join(".",getAlias(), "Name"));
     }
 
     @Override

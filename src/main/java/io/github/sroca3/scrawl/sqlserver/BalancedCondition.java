@@ -4,6 +4,7 @@ import io.github.sroca3.scrawl.sqlserver.schema.Condition;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class BalancedCondition implements Condition {
     private String condition;
@@ -11,7 +12,9 @@ public class BalancedCondition implements Condition {
     private String operator;
     private Object parameter;
     private String logicalOperator;
+    private Condition nextCondition;
     private final List<Condition> conditions = new LinkedList<>();
+    private final Parameters parameters = new Parameters();
 
     public BalancedCondition(String condition) {
         this.condition = condition;
@@ -23,45 +26,78 @@ public class BalancedCondition implements Condition {
         this.parameter = parameter;
     }
 
-    public String getLhs() {
-        return lhs;
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public Object getParameter() {
-        return parameter;
-    }
-
     public String build() {
         return this.condition;
     }
 
     @Override
     public Condition or(Condition condition) {
-        ((BalancedCondition)condition).setLogicalOperator("OR");
+        if (nextCondition != null) {
+            this.nextCondition.or(condition);
+            return this;
+        }
+        this.logicalOperator = "OR";
         conditions.add(condition);
+        nextCondition = condition;
         return this;
     }
 
     @Override
     public Condition and(Condition condition) {
-        ((BalancedCondition)condition).setLogicalOperator("AND");
+        if (nextCondition != null) {
+            this.nextCondition.and(condition);
+            return this;
+        }
+        this.logicalOperator = "AND";
         conditions.add(condition);
+        nextCondition = condition;
         return this;
     }
 
-    private void setLogicalOperator(String logicalOperator) {
-        this.logicalOperator = logicalOperator;
+    @Override
+    public String getSql() {
+        StringBuilder builder = new StringBuilder(getSqlForCondition());
+//        conditions.forEach(c -> {
+//            c.setInitialParameters(this.parameters);
+//            builder.append(c.getSql());
+//        });
+if(this.nextCondition != null){
+    this.nextCondition.setInitialParameters(parameters);
+        builder.append(this.nextCondition.getSql());
+}
+        return builder.toString();
     }
 
-    public List<Condition> getConditions() {
-        return List.copyOf(conditions);
+    private static final String SPACE = " ";
+
+    private String getSqlForCondition() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(this.lhs)
+               .append(SPACE)
+               .append(this.operator)
+               .append(SPACE);
+        if (this.parameter instanceof String && String.valueOf(this.parameter).startsWith(":")) {
+            builder.append(this.parameter);
+        } else {
+            String parameterName = parameters.generateParameterName(this.lhs.toLowerCase(Locale.ENGLISH));
+            parameters.addParameter(parameterName, this.parameter);
+            builder.append(parameterName);
+        }
+        if (this.logicalOperator != null) {
+            builder.append(SPACE)
+                   .append(this.logicalOperator)
+                   .append(SPACE);
+        }
+        return builder.toString();
     }
 
-    public String getLogicalOperator() {
-        return this.logicalOperator;
+    @Override
+    public Parameters getParameters() {
+        return parameters;
+    }
+
+    @Override
+    public void setInitialParameters(Parameters parameters) {
+        this.parameters.addParameters(parameters);
     }
 }
