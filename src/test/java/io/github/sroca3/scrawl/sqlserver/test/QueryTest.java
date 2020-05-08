@@ -91,7 +91,7 @@ public class QueryTest {
                         .getSql()
             ),
             Arguments.of(
-                "SELECT * FROM City WHERE Name = :name OR Name = :name1 AND Name != :name2",
+                "SELECT * FROM City WHERE Name = :name OR Name = :name1 AND Name <> :name2",
                 select().star()
                         .from(CITY)
                         .where(

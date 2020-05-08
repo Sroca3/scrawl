@@ -4,4 +4,18 @@ public interface Expression {
     Condition eq(Object parameter);
 
     Condition neq(Object parameter);
+
+    Condition nEq(Object parameter);
+
+    Condition gt(Object parameter);
+
+    Condition lt(Object parameter);
+
+    Condition gte(Object parameter);
+
+    Condition lte(Object parameter);
+
+    Condition nlt(Object parameter);
+
+    Condition ngt(Object parameter);
 }

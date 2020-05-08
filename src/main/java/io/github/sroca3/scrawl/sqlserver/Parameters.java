@@ -8,14 +8,12 @@ public class Parameters {
     private static final String COLON = ":";
     private final Map<String, Object> parameterMap = new HashMap<>();
 
-
     public Map<String, Object> toMap() {
         return Map.copyOf(parameterMap);
     }
 
-    public Parameters addParameters(Parameters parameters) {
+    public void addParameters(Parameters parameters) {
         this.parameterMap.putAll(parameters.toMap());
-        return this;
     }
 
     public void addParameter(String parameter, Object object) {

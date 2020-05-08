@@ -104,10 +104,10 @@ public class SqlBuilder {
         this.columns = List.copyOf(columns);
     }
 
-    public void addConditionToWhereClause(Condition condition1) {
-        condition1.setInitialParameters(this.parameters);
-        this.whereClause = condition1.getSql();
-        this.parameters = condition1.getParameters();
+    public void addConditionToWhereClause(Condition condition) {
+        condition.setInitialParameters(this.parameters);
+        this.whereClause = condition.getSql();
+        this.parameters = condition.getParameters();
     }
 
     public void addOrderByClause(String[] columns) {
