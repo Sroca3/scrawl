@@ -1,5 +1,7 @@
 package io.github.sroca3.scrawl.sqlserver;
 
+import io.github.sroca3.scrawl.sqlserver.condition.SimpleCondition;
+
 public class UnbalancedCondition {
     private String condition;
 
@@ -8,7 +10,7 @@ public class UnbalancedCondition {
         this.condition = condition;
     }
 
-    public BalancedCondition rhs(String rhs) {
-        return new BalancedCondition(condition + rhs);
+    public SimpleCondition rhs(String rhs) {
+        return new SimpleCondition(condition + rhs);
     }
 }

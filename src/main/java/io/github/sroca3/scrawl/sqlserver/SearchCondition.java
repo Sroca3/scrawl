@@ -1,5 +1,6 @@
 package io.github.sroca3.scrawl.sqlserver;
 
+import io.github.sroca3.scrawl.sqlserver.condition.SimpleCondition;
 import io.github.sroca3.scrawl.sqlserver.schema.Condition;
 import io.github.sroca3.scrawl.sqlserver.schema.Expression;
 
@@ -17,11 +18,11 @@ public class SearchCondition implements Expression {
 
     @Override
     public Condition eq(Object parameter) {
-        return new BalancedCondition(condition, "=", parameter);
+        return new SimpleCondition(condition, "=", parameter);
     }
 
     @Override
     public Condition neq(Object parameter) {
-        return new BalancedCondition(condition, "!=", parameter);
+        return new SimpleCondition(condition, "!=", parameter);
     }
 }

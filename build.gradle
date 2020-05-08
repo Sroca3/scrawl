@@ -30,10 +30,12 @@ javadoc {
 }
 
 task sourceJar(type: Jar) {
+    archiveClassifier = "sources"
     from sourceSets.main.allJava
 }
 
 task javadocJar(type: Jar) {
+    archiveClassifier = "javadoc"
     from javadoc
 }
 
