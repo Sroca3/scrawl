@@ -1,0 +1,65 @@
+= Scrawl
+
+Scrawl is a sql builder for Microsoft SQL Server or at least will start out that way.
+
+== Definition
+
+Scrawl - to write (something) in a hurried, careless way.
+
+While hopefully not indicative of the code quality, Scrawl's name comes from it being a side project that I'm throwing together in my spare time.
+Also, it's a cool sounding word.
+
+== Origin
+
+Other fuller sql builder implementations already exist such as jOOQ and QueryDsl, but some of my personal experiences pushed me to write my own.
+
+For jOOQ, I didn't care for the paywall since to adopt such a library you might have to get through the first hurdle of convincing someone else to buy it.
+
+For QueryDsl, I didn't care for the code generation stance.
+I much prefer generate once then maintain vs always generate.
+
+Additionally, for both mentioned libraries and more generally with respect to databases, I think trying to generate a common library is a hindrance.
+SQL languages have to all adhere to a standard first before we can get to that point.
+Thus, the sql building libraries should be language specific.
+
+Finally, I've had too many experiences where an ORM or a sql building library gets in my way, so I wanted to build something thin.
+Sql building libraries should be like syntactic sugar.
+If the library gets in the way of generating specific sql statements, then I might as well just use a String.
+
+== Usage
+
+=== Validation Query
+
+[source,java]
+----
+// SELECT 1
+select().one().getSql();
+----
+
+=== Select Queries
+
+[source,java]
+----
+// SELECT * FROM Table
+select().star().from("Table").getSql();
+----
+
+The next examples assume you have a class link:src/test/java/io/github/sroca3/scrawl/sqlserver/schema/City.java[City].
+
+[source,java]
+----
+City c = CITY.as("c");
+// SELECT c.Name FROM City c
+select(c.columns()).from(c).getSql();
+----
+
+[source,java]
+----
+var query = select().star().from(CITY).where(CITY.name().eq("Atlanta"))
+// SELECT * FROM City WHERE Name = :name
+query.getSql();
+// Parameter map: "name" : "Atlanta"
+query.getParameterMap();
+----
+
+For other examples, see link:src/test/java/io/github/sroca3/scrawl/sqlserver/test/QueryTest.java[QueryTest].
