@@ -1,6 +1,6 @@
 package io.github.sroca3.scrawl.sqlserver.test;
 
-import io.github.sroca3.scrawl.sqlserver.schema.City;
+import io.github.sroca3.scrawl.sqlserver.schema.CityTable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static io.github.sroca3.scrawl.sqlserver.Query.lhs;
 import static io.github.sroca3.scrawl.sqlserver.Query.select;
-import static io.github.sroca3.scrawl.sqlserver.schema.City.CITY;
+import static io.github.sroca3.scrawl.sqlserver.schema.CityTable.CITY;
 import static io.github.sroca3.scrawl.sqlserver.schema.Permission.PERMISSIONS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class QueryTest {
 
     public static Stream<Arguments> sqlEvaluation() {
-        City c = CITY.as("c");
+        CityTable c = CITY.as("c");
         return Stream.of(
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
@@ -112,8 +112,8 @@ public class QueryTest {
     @Test
     public void parameterMap() {
         Map<String, Object> parameters = select().star().from(CITY).where(CITY.name().eq("Atlanta")).getParameterMap();
-        assertEquals(":name", parameters.keySet().iterator().next());
-        assertEquals("Atlanta", parameters.get(":name"));
+        assertEquals("name", parameters.keySet().iterator().next());
+        assertEquals("Atlanta", parameters.get("name"));
     }
 
     @ParameterizedTest

@@ -18,4 +18,6 @@ public interface Expression {
     Condition nlt(Object parameter);
 
     Condition ngt(Object parameter);
+
+    Condition like(String parameter);
 }

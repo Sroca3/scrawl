@@ -17,18 +17,18 @@ public class Parameters {
     }
 
     public void addParameter(String parameter, Object object) {
-        this.parameterMap.put(parameter, object);
+        this.parameterMap.put(parameter.substring(1), object);
     }
 
     public String generateParameterName(String parameterName) {
-        String resolvedName = COLON + parameterName;
+        String resolvedName = parameterName;
         var differentiator = IntStream.rangeClosed(1, 10).iterator();
         while (parameterMap.containsKey(resolvedName)) {
             if (!differentiator.hasNext()) {
                 throw new IllegalStateException("Why do you have more than 10 of the same parameter?");
             }
-            resolvedName = COLON + parameterName + differentiator.next();
+            resolvedName = parameterName + differentiator.next();
         }
-        return resolvedName;
+        return COLON + resolvedName;
     }
 }

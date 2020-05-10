@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static io.github.sroca3.scrawl.sqlserver.schema.City.CITY;
+import static io.github.sroca3.scrawl.sqlserver.schema.CityTable.CITY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConditionTest {

@@ -5,13 +5,18 @@ plugins {
 }
 
 group 'io.github.sroca3'
-version '0.1.0-SNAPSHOT'
+version '0.1.0'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    testCompile "org.flywaydb:flyway-core:6.4.1"
+    testCompile 'org.springframework.boot:spring-boot-starter-jdbc:2.2.6.RELEASE'
+    testCompile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '8.2.2.jre11'
+    testCompile "org.testcontainers:testcontainers:1.14.1"
+    testCompile 'org.testcontainers:mssqlserver:1.14.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.4.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'

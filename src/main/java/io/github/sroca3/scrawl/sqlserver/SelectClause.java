@@ -28,4 +28,8 @@ public class SelectClause implements TerminatingClause {
     public Map<String, Object> getParameterMap() {
         return sqlBuilder.getParameterMap();
     }
+
+    public SelectColumnsClause count() {
+        return new SelectColumnsClause(List.of("COUNT(*)"), true);
+    }
 }

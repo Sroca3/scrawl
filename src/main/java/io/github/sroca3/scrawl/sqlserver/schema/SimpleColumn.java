@@ -58,4 +58,9 @@ public class SimpleColumn implements Column {
     public Condition ngt(Object parameter) {
         return new SimpleCondition(getName(), Operator.NGT.getOperator(), parameter);
     }
+
+    @Override
+    public Condition like(String parameter) {
+        return new SimpleCondition(getName(), Operator.LIKE.getOperator(), parameter);
+    }
 }

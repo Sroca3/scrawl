@@ -1,13 +1,13 @@
 package io.github.sroca3.scrawl.sqlserver.schema;
 
-public class City extends AbstractTable<City> {
-    public static final City CITY = new City();
+public class CityTable extends AbstractTable<CityTable> {
+    public static final CityTable CITY = new CityTable();
 
-    private City() {
+    private CityTable() {
         this(null);
     }
 
-    private City(String alias) {
+    private CityTable(String alias) {
         super("City", alias);
     }
 
@@ -23,7 +23,7 @@ public class City extends AbstractTable<City> {
     }
 
     @Override
-    public City as(String alias) {
-        return new City(alias);
+    public CityTable as(String alias) {
+        return new CityTable(alias);
     }
 }

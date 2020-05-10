@@ -62,4 +62,8 @@ public class SearchCondition implements Expression {
         return new SimpleCondition(lhs, Operator.NGT.getOperator(), parameter);
     }
 
+    @Override
+    public Condition like(String parameter) {
+        return new SimpleCondition(lhs, Operator.LIKE.getOperator(), parameter);
+    }
 }

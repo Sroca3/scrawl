@@ -9,7 +9,8 @@ public enum Operator {
     LTE("<="),
     GTE(">="),
     NLT("!<"),
-    NGT("!>");
+    NGT("!>"),
+    LIKE("LIKE");
     private final String operator;
 
     Operator(String operator) {

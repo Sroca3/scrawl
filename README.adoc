@@ -44,7 +44,7 @@ select().one().getSql();
 select().star().from("Table").getSql();
 ----
 
-The next examples assume you have a class link:src/test/java/io/github/sroca3/scrawl/sqlserver/schema/City.java[City].
+The next examples assume you have a class link:src/test/java/io/github/sroca3/scrawl/sqlserver/schema/CityTable.java[CityTable].
 
 [source,java]
 ----
