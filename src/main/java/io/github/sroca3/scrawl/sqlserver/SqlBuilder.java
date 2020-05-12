@@ -7,9 +7,7 @@ import io.github.sroca3.scrawl.sqlserver.schema.SimpleColumn;
 import io.github.sroca3.scrawl.sqlserver.schema.Table;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
@@ -120,17 +118,7 @@ public class SqlBuilder {
 
     private static class GenericTable extends AbstractTable<GenericTable> {
         public GenericTable(String tableName) {
-            super(tableName, "");
-        }
-
-        @Override
-        public Column[] columns() {
-            return new Column[0];
-        }
-
-        @Override
-        public GenericTable as(String alias) {
-            return null;
+            super(tableName);
         }
     }
 }

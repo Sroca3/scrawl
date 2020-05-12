@@ -4,27 +4,10 @@ public class Permission extends AbstractTable<Permission> {
     public static final Permission PERMISSIONS = new Permission();
 
     private Permission() {
-        this("");
-    }
-
-    private Permission(String alias) {
-        super("IAM", "Permissions", alias);
+        super("IAM","Permissions", null);
     }
 
     public Column name() {
-        return new SimpleColumn(String.join(".",getAlias(), "Name"));
+        return column("Name");
     }
-
-    @Override
-    public Column[] columns() {
-        return new Column[] {
-            name()
-        };
-    }
-
-    @Override
-    public Permission as(String alias) {
-        return new Permission(alias);
-    }
-
 }
