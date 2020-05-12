@@ -45,4 +45,4 @@ test:
       - .gradle
   artifacts:
     reports:
-      junit: build/test-results/TEST-*.xml
+      junit: build/test-results/test/TEST-*.xml
