@@ -1,5 +1,9 @@
 = Scrawl
 
+image:https://gitlab.com/sroca3/scrawl/badges/master/pipeline.svg[link="https://gitlab.com/sroca3/scrawl/-/commits/master",title="pipeline status"]
+
+image:https://gitlab.com/sroca3/scrawl/badges/master/coverage.svg[link="https://gitlab.com/sroca3/scrawl/-/commits/master",title="coverage report"]
+
 Scrawl is a sql builder for Microsoft SQL Server or at least will start out that way.
 
 == Definition
