@@ -34,10 +34,15 @@ build:
 
 test:
   stage: test
-  script: gradle check
+  script:
+    - ./gradlew check
+    - echo ./build/reports/jacoco/test/html/index.html
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
       - build
       - .gradle
+  artifacts:
+    reports:
+      junit: test-results/TEST-*.xml

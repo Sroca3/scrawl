@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
     id 'maven-publish'
     id 'signing'
 }
@@ -46,6 +47,7 @@ task javadocJar(type: Jar) {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 publishing {
