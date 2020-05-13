@@ -1,6 +1,7 @@
 package io.github.sroca3.scrawl.sqlserver;
 
 import io.github.sroca3.scrawl.sqlserver.condition.SimpleCondition;
+import io.github.sroca3.scrawl.sqlserver.schema.Column;
 import io.github.sroca3.scrawl.sqlserver.schema.Condition;
 import io.github.sroca3.scrawl.sqlserver.schema.Expression;
 import io.github.sroca3.scrawl.sqlserver.schema.Operator;
@@ -15,6 +16,11 @@ public class SearchCondition implements Expression {
 
     public UnbalancedCondition eq() {
         return new UnbalancedCondition(lhs + " = ");
+    }
+
+    @Override
+    public Condition eq(Column column) {
+        return null;
     }
 
     @Override

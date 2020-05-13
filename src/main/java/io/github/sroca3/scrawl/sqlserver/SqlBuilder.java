@@ -19,6 +19,8 @@ public class SqlBuilder {
     private static final String SELECT = "SELECT";
     private static final String FROM = "FROM";
     private static final String WHERE = "WHERE";
+    private static final String JOIN = "JOIN";
+    private static final String ON = "ON";
 
     boolean isSelectQuery;
     private List<Column> columns = Collections.emptyList();
@@ -26,6 +28,7 @@ public class SqlBuilder {
     private String whereClause = "";
     private String orderByClause = "";
     private Parameters parameters = new Parameters();
+    private String joinClause = "";
 
     public void markAsSelectQuery() {
         this.isSelectQuery = true;
@@ -37,14 +40,21 @@ public class SqlBuilder {
             builder.append(SELECT);
             appendColumns(builder);
             appendRootTable(builder);
+            appendJoinClause(builder);
             appendWhereClause(builder);
             appendOrderByClause(builder);
         }
         return builder.toString();
     }
 
+    private void appendJoinClause(StringBuilder builder) {
+        if (isNotBlank(this.joinClause)) {
+            builder.append(joinClause);
+        }
+    }
+
     private void appendOrderByClause(StringBuilder builder) {
-        if(isNotBlank(this.orderByClause)) {
+        if (isNotBlank(this.orderByClause)) {
             builder.append(this.orderByClause);
         }
     }
@@ -114,6 +124,14 @@ public class SqlBuilder {
 
     public Map<String, Object> getParameterMap() {
         return parameters.toMap();
+    }
+
+    public void addJoinClause(Table<?> table) {
+        this.joinClause = this.joinClause + SPACE + JOIN + SPACE + table.getName();
+    }
+
+    public void addJoinCondition(Condition condition) {
+        this.joinClause = this.joinClause + SPACE + ON + SPACE + condition.getSql();
     }
 
     private static class GenericTable extends AbstractTable<GenericTable> {

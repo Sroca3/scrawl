@@ -13,6 +13,8 @@ import static io.github.sroca3.scrawl.sqlserver.Query.lhs;
 import static io.github.sroca3.scrawl.sqlserver.Query.select;
 import static io.github.sroca3.scrawl.sqlserver.schema.CityTable.CITY;
 import static io.github.sroca3.scrawl.sqlserver.schema.Permission.PERMISSIONS;
+import static io.github.sroca3.scrawl.sqlserver.schema.RoleTable.ROLE;
+import static io.github.sroca3.scrawl.sqlserver.schema.UserTable.USER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -100,6 +102,13 @@ public class QueryTest {
                                         .and(CITY.name().neq("Washington")))
                         )
                         .getSql()
+            ),
+            Arguments.of(
+                "SELECT Name FROM IAM.User JOIN IAM.Role ON Id = RoleId",
+                select(ROLE.name())
+                    .from(USER)
+                    .join(ROLE).on(ROLE.id().eq(USER.roleId()))
+                    .getSql()
             )
         );
     }

@@ -1,5 +1,6 @@
 package io.github.sroca3.scrawl.sqlserver.schema;
 
+import io.github.sroca3.scrawl.sqlserver.condition.DirectCondition;
 import io.github.sroca3.scrawl.sqlserver.condition.SimpleCondition;
 
 public class SimpleColumn implements Column {
@@ -12,6 +13,11 @@ public class SimpleColumn implements Column {
     @Override
     public String getName() {
         return columnName;
+    }
+
+    @Override
+    public Condition eq(Column column) {
+        return new DirectCondition(getName(), Operator.EQ.getOperator(), column.getName());
     }
 
     @Override

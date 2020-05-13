@@ -1,6 +1,7 @@
 package io.github.sroca3.scrawl.sqlserver;
 
 import io.github.sroca3.scrawl.sqlserver.schema.Condition;
+import io.github.sroca3.scrawl.sqlserver.schema.SqlHolder;
 import io.github.sroca3.scrawl.sqlserver.schema.Table;
 
 import java.util.Map;
@@ -8,6 +9,10 @@ import java.util.Map;
 public class FromClause implements TerminatingClause {
 
     private SqlBuilder sqlBuilder;
+
+    public FromClause(SqlBuilder sqlBuilder) {
+        this.sqlBuilder = sqlBuilder;
+    }
 
     public FromClause(SqlBuilder sqlBuilder, String tableName) {
         this.sqlBuilder = sqlBuilder;
@@ -36,6 +41,11 @@ public class FromClause implements TerminatingClause {
     public TerminatingClause where(Condition condition) {
         sqlBuilder.addConditionToWhereClause(condition);
         return this;
+    }
+
+    public JoinClause join(Table<?> table) {
+        sqlBuilder.addJoinClause(table);
+        return new JoinClause(sqlBuilder, table);
     }
 
     @Override
