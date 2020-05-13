@@ -46,3 +46,7 @@ test:
   artifacts:
     reports:
       junit: build/test-results/test/TEST-*.xml
+
+publish:
+  stage: deploy
+  script: ./gradlew publish
