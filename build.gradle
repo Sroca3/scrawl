@@ -85,8 +85,8 @@ publishing {
                     url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
                     if (project.hasProperty("repositoryUsername")) {
                         credentials {
-                            username "$repositoryUsername"
-                            password "$repositoryPassword"
+                            username findProperty("repositoryUsername")
+                            password findProperty("repositoryPassword")
                         }
                     }
                 }
@@ -96,5 +96,8 @@ publishing {
 }
 
 signing {
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign publishing.publications.mavenJava
 }
