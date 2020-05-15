@@ -4,10 +4,6 @@
 # https://github.com/gradle/gradle
 image: gradle:jdk11
 
-# DinD service is required for Testcontainers
-services:
-  - docker:dind
-
 # Disable the Gradle daemon for Continuous Integration servers as correctness
 # is usually a priority over speed in CI environments. Using a fresh
 # runtime for each build is more reliable since the runtime is completely
@@ -34,6 +30,9 @@ build:
 
 test:
   stage: test
+  # DinD service is required for Testcontainers
+  services:
+    - docker:dind
   script:
     - ./gradlew check
     - cat build/reports/jacoco/test/html/index.html
@@ -50,3 +49,5 @@ test:
 publish:
   stage: deploy
   script: ./gradlew publish
+  only:
+    - master

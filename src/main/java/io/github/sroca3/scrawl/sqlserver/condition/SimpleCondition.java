@@ -20,10 +20,6 @@ public class SimpleCondition extends AbstractCondition implements Condition {
         this.parameter = parameter;
     }
 
-    public String build() {
-        return this.condition;
-    }
-
     @Override
     public String getSql() {
         StringBuilder builder = new StringBuilder();

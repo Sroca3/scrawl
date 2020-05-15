@@ -25,7 +25,7 @@ public class QueryTest {
         return Stream.of(
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
-                select().star().from("City").where(lhs("Country").eq().rhs(":country").build()).getSql()
+                select().star().from("City").where(lhs("Country").eq(":country")).getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
@@ -33,7 +33,7 @@ public class QueryTest {
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
-                select().star().from("City").where(lhs("Country").eq().rhs(":country").build()).getSql()
+                select().star().from("City").where(lhs("Country").eq(":country")).getSql()
             ),
             Arguments.of(
                 "SELECT 1",
@@ -41,19 +41,19 @@ public class QueryTest {
             ),
             Arguments.of(
                 "SELECT * FROM table",
-                select().star().from("table").build()
+                select().star().from("table").getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City",
-                select().star().from(CITY).build()
+                select().star().from(CITY).getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City c",
-                select().star().from(CITY.as("c")).build()
+                select().star().from(CITY.as("c")).getSql()
             ),
             Arguments.of(
                 "SELECT Country, State, City FROM City",
-                select("Country", "State", "City").from("City").build()
+                select("Country", "State", "City").from("City").getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City ORDER BY CreateDt",
@@ -69,15 +69,15 @@ public class QueryTest {
             ),
             Arguments.of(
                 "SELECT c.Name FROM City c",
-                select(c.name()).from(c).build()
+                select(c.name()).from(c).getSql()
             ),
             Arguments.of(
                 "SELECT c.Name FROM City c",
-                select(c.columns()).from(c).build()
+                select(c.columns()).from(c).getSql()
             ),
             Arguments.of(
                 "SELECT * FROM IAM.Permissions",
-                select().star().from(PERMISSIONS).build()
+                select().star().from(PERMISSIONS).getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Name = :name",

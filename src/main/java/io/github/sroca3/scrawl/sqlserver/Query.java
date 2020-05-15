@@ -13,29 +13,15 @@ public class Query {
     }
 
     public static SelectClause select() {
-        return new SelectClause();
+        return new QueryBuilder();
     }
 
     public static SelectColumnsClause select(String... columns) {
-        if (columns.length < 1) {
-            throw new IllegalArgumentException("Columns cannot be empty.");
-        }
-        List<String> cols = Arrays.stream(columns).filter(c -> !c.isBlank()).collect(Collectors.toList());
-        if (columns.length > cols.size()) {
-            throw new IllegalArgumentException("Cannot specify blank column names");
-        }
-        return new SelectColumnsClause(cols, true);
+        return new QueryBuilder(columns);
     }
 
     public static SelectColumnsClause select(Column... columns) {
-        if (columns.length < 1) {
-            throw new IllegalArgumentException("Columns cannot be empty.");
-        }
-        List<Column> cols = Arrays.stream(columns).filter(Objects::nonNull).collect(Collectors.toList());
-        if (columns.length > cols.size()) {
-            throw new IllegalArgumentException("Cannot specify blank column names");
-        }
-        return new SelectColumnsClause(cols);
+        return new QueryBuilder(columns);
     }
 
     public static SearchCondition lhs(String lhs) {

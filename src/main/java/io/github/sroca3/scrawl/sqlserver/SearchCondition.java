@@ -8,14 +8,10 @@ import io.github.sroca3.scrawl.sqlserver.schema.Operator;
 
 public class SearchCondition implements Expression {
 
-    private String lhs;
+    private final String lhs;
 
     public SearchCondition(String lhs) {
         this.lhs = lhs;
-    }
-
-    public UnbalancedCondition eq() {
-        return new UnbalancedCondition(lhs + " = ");
     }
 
     @Override

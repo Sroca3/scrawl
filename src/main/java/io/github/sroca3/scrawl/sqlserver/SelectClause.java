@@ -1,35 +1,9 @@
 package io.github.sroca3.scrawl.sqlserver;
 
-import java.util.List;
-import java.util.Map;
+public interface SelectClause extends TerminatingClause {
+    TerminatingClause one();
 
-public class SelectClause implements TerminatingClause {
-    private final SqlBuilder sqlBuilder = new SqlBuilder();
+    SelectColumnsClause star();
 
-    public SelectClause() {
-        this.sqlBuilder.markAsSelectQuery();
-    }
-
-    public TerminatingClause one() {
-        sqlBuilder.addColumnNames(List.of("1"));
-        return this;
-    }
-
-    public SelectColumnsClause star() {
-        return new SelectColumnsClause(List.of("*"), true);
-    }
-
-    @Override
-    public String getSql() {
-        return sqlBuilder.build();
-    }
-
-    @Override
-    public Map<String, Object> getParameterMap() {
-        return sqlBuilder.getParameterMap();
-    }
-
-    public SelectColumnsClause count() {
-        return new SelectColumnsClause(List.of("COUNT(*)"), true);
-    }
+    SelectColumnsClause count();
 }
