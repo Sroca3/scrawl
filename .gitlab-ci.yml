@@ -48,6 +48,6 @@ test:
 
 publish:
   stage: deploy
-  script: ./gradlew publish
+  script: ./gradlew publishMavenJavaPublicationToMavenRepository
   only:
     - master
