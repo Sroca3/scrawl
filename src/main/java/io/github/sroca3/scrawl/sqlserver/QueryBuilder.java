@@ -16,14 +16,10 @@ public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClau
 
     public QueryBuilder() {
         this.sqlBuilder = new SqlBuilder();
-        sqlBuilder.markAsSelectQuery();
     }
 
     public QueryBuilder(String... columns) {
         this();
-        if (columns.length < 1) {
-            throw new IllegalArgumentException("Columns cannot be empty.");
-        }
         List<String> cols = Arrays.stream(columns).filter(c -> !c.isBlank()).collect(Collectors.toList());
         if (columns.length > cols.size()) {
             throw new IllegalArgumentException("Cannot specify blank column names");
@@ -33,10 +29,10 @@ public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClau
 
     public QueryBuilder(Column[] columns) {
         this();
-        if (columns.length < 1) {
-            throw new IllegalArgumentException("Columns cannot be empty.");
-        }
-        List<Column> cols = Arrays.stream(columns).filter(Objects::nonNull).collect(Collectors.toList());
+        List<Column> cols = Arrays.stream(columns)
+                                  .filter(Objects::nonNull)
+                                  .filter(c -> !c.getName().isBlank())
+                                  .collect(Collectors.toList());
         if (columns.length > cols.size()) {
             throw new IllegalArgumentException("Cannot specify blank column names");
         }
@@ -75,12 +71,6 @@ public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClau
     @Override
     public TerminatingClause orderBy(String... columns) {
         sqlBuilder.addOrderByClause(columns);
-        return this;
-    }
-
-    @Override
-    public TerminatingClause where(String whereClause) {
-        sqlBuilder.addWhereClause(whereClause);
         return this;
     }
 

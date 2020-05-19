@@ -9,12 +9,12 @@ import io.github.sroca3.scrawl.sqlserver.schema.Table;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 public class SqlBuilder {
     private static final String SPACE = " ";
-    private static final String COLON = ":";
     private static final String COMMA_SPACE = ", ";
     private static final String SELECT = "SELECT";
     private static final String FROM = "FROM";
@@ -22,7 +22,6 @@ public class SqlBuilder {
     private static final String JOIN = "JOIN";
     private static final String ON = "ON";
 
-    boolean isSelectQuery;
     private List<Column> columns = Collections.emptyList();
     private Table<?> rootTable;
     private String whereClause = "";
@@ -30,20 +29,14 @@ public class SqlBuilder {
     private Parameters parameters = new Parameters();
     private String joinClause = "";
 
-    public void markAsSelectQuery() {
-        this.isSelectQuery = true;
-    }
-
     public String build() {
         var builder = new StringBuilder();
-        if (isSelectQuery) {
-            builder.append(SELECT);
-            appendColumns(builder);
-            appendRootTable(builder);
-            appendJoinClause(builder);
-            appendWhereClause(builder);
-            appendOrderByClause(builder);
-        }
+        builder.append(SELECT);
+        appendColumns(builder);
+        appendRootTable(builder);
+        appendJoinClause(builder);
+        appendWhereClause(builder);
+        appendOrderByClause(builder);
         return builder.toString();
     }
 
@@ -60,10 +53,9 @@ public class SqlBuilder {
     }
 
     private void appendColumns(StringBuilder builder) {
-        if (!columns.isEmpty()) {
-            builder.append(SPACE)
-                   .append(String.join(COMMA_SPACE, columns.parallelStream().map(Column::getName).collect(toList())));
-        }
+        builder.append(SPACE)
+               .append(columns.parallelStream().map(Column::getName).collect(Collectors.joining(COMMA_SPACE)));
+
     }
 
     private void appendRootTable(StringBuilder builder) {
@@ -98,10 +90,6 @@ public class SqlBuilder {
 
     public void addRootTable(String tableName) {
         this.rootTable = new GenericTable(tableName);
-    }
-
-    public void addWhereClause(String whereClause) {
-        this.whereClause = whereClause;
     }
 
     public void addRootTable(Table<?> table) {

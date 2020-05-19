@@ -1,6 +1,9 @@
 package io.github.sroca3.scrawl.sqlserver;
 
 import io.github.sroca3.scrawl.sqlserver.schema.Column;
+import io.github.sroca3.scrawl.sqlserver.schema.Condition;
+import io.github.sroca3.scrawl.sqlserver.schema.Expression;
+import io.github.sroca3.scrawl.sqlserver.schema.SimpleColumn;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +27,7 @@ public class Query {
         return new QueryBuilder(columns);
     }
 
-    public static SearchCondition lhs(String lhs) {
-        return new SearchCondition(lhs);
+    public static Expression lhs(String lhs) {
+        return new SimpleColumn(lhs);
     }
 }

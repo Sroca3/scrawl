@@ -5,23 +5,14 @@ import io.github.sroca3.scrawl.sqlserver.schema.Condition;
 import java.util.Locale;
 
 public class DirectCondition extends AbstractCondition implements Condition {
-    private String condition;
     private String lhs;
     private String operator;
     private String rhs;
-
-    public DirectCondition(String condition) {
-        this.condition = condition;
-    }
 
     public DirectCondition(String lhs, String operator, String rhs) {
         this.lhs = lhs;
         this.operator = operator;
         this.rhs = rhs;
-    }
-
-    public String build() {
-        return this.condition;
     }
 
     @Override

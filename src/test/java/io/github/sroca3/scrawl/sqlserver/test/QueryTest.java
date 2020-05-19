@@ -1,6 +1,7 @@
 package io.github.sroca3.scrawl.sqlserver.test;
 
 import io.github.sroca3.scrawl.sqlserver.schema.CityTable;
+import io.github.sroca3.scrawl.sqlserver.schema.SimpleColumn;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -115,7 +116,10 @@ public class QueryTest {
 
     @Test
     public void selectBlankColumnsFromTable() {
-        assertThrows(IllegalArgumentException.class, () -> select(""));
+        IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> select(""));
+        assertEquals("Cannot specify blank column names", illegalArgumentException.getMessage());
+        illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> select(new SimpleColumn("")));
+        assertEquals("Cannot specify blank column names", illegalArgumentException.getMessage());
     }
 
     @Test

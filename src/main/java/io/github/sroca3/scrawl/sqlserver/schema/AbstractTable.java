@@ -53,6 +53,7 @@ public abstract class AbstractTable<T extends AbstractTable<T>> implements Table
         return columns.toArray(new Column[0]);
     }
 
+    @Override
     public T as(String alias) {
         try {
             var constructor = getSubClass().getDeclaredConstructor();

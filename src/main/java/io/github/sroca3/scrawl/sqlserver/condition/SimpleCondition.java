@@ -5,14 +5,9 @@ import io.github.sroca3.scrawl.sqlserver.schema.Condition;
 import java.util.Locale;
 
 public class SimpleCondition extends AbstractCondition implements Condition {
-    private String condition;
     private String lhs;
     private String operator;
     private Object parameter;
-
-    public SimpleCondition(String condition) {
-        this.condition = condition;
-    }
 
     public SimpleCondition(String lhs, String operator, Object parameter) {
         this.lhs = lhs;

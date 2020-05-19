@@ -7,8 +7,6 @@ public interface FromClause extends TerminatingClause {
 
     TerminatingClause orderBy(String... columns);
 
-    TerminatingClause where(String whereClause);
-
     TerminatingClause where(Condition condition);
 
     JoinClause join(Table<?> table);
