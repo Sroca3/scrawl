@@ -10,4 +10,10 @@ public interface FromClause extends TerminatingClause {
     TerminatingClause where(Condition condition);
 
     JoinClause join(Table<?> table);
+
+    JoinClause leftJoin(Table<?> table);
+
+    JoinClause rightJoin(Table<?> table);
+
+    JoinClause outerJoin(Table<?> table);
 }

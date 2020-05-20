@@ -110,6 +110,27 @@ public class QueryTest {
                     .from(USER)
                     .join(ROLE).on(ROLE.id().eq(USER.roleId()))
                     .getSql()
+            ),
+            Arguments.of(
+                "SELECT Name FROM IAM.User LEFT JOIN IAM.Role ON Id = RoleId",
+                select(ROLE.name())
+                    .from(USER)
+                    .leftJoin(ROLE).on(ROLE.id().eq(USER.roleId()))
+                    .getSql()
+            ),
+            Arguments.of(
+                "SELECT Name FROM IAM.User RIGHT JOIN IAM.Role ON Id = RoleId",
+                select(ROLE.name())
+                    .from(USER)
+                    .rightJoin(ROLE).on(ROLE.id().eq(USER.roleId()))
+                    .getSql()
+            ),
+            Arguments.of(
+                "SELECT Name FROM IAM.User OUTER JOIN IAM.Role ON Id = RoleId",
+                select(ROLE.name())
+                    .from(USER)
+                    .outerJoin(ROLE).on(ROLE.id().eq(USER.roleId()))
+                    .getSql()
             )
         );
     }

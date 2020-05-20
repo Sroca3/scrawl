@@ -114,8 +114,8 @@ public class SqlBuilder {
         return parameters.toMap();
     }
 
-    public void addJoinClause(Table<?> table) {
-        this.joinClause = this.joinClause + SPACE + JOIN + SPACE + table.getName();
+    public void addJoinClause(JoinType joinType, Table<?> table) {
+        this.joinClause = this.joinClause + SPACE + joinType.getKeyword() + SPACE + table.getName();
     }
 
     public void addJoinCondition(Condition condition) {

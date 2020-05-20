@@ -82,7 +82,25 @@ public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClau
 
     @Override
     public JoinClause join(Table<?> table) {
-        sqlBuilder.addJoinClause(table);
+        sqlBuilder.addJoinClause(JoinType.INNER, table);
+        return this;
+    }
+
+    @Override
+    public JoinClause leftJoin(Table<?> table) {
+        sqlBuilder.addJoinClause(JoinType.LEFT, table);
+        return this;
+    }
+
+    @Override
+    public JoinClause rightJoin(Table<?> table) {
+        sqlBuilder.addJoinClause(JoinType.RIGHT, table);
+        return this;
+    }
+
+    @Override
+    public JoinClause outerJoin(Table<?> table) {
+        sqlBuilder.addJoinClause(JoinType.OUTER, table);
         return this;
     }
 
