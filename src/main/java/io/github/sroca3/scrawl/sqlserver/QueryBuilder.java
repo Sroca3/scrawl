@@ -105,6 +105,12 @@ public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClau
     }
 
     @Override
+    public TerminatingClause groupBy(Column column) {
+        sqlBuilder.addGroupByClause(column);
+        return this;
+    }
+
+    @Override
     public FromClause on(Condition condition) {
         sqlBuilder.addJoinCondition(condition);
         return this;

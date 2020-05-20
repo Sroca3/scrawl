@@ -19,7 +19,6 @@ public class SqlBuilder {
     private static final String SELECT = "SELECT";
     private static final String FROM = "FROM";
     private static final String WHERE = "WHERE";
-    private static final String JOIN = "JOIN";
     private static final String ON = "ON";
 
     private List<Column> columns = Collections.emptyList();
@@ -28,6 +27,7 @@ public class SqlBuilder {
     private String orderByClause = "";
     private Parameters parameters = new Parameters();
     private String joinClause = "";
+    private String groupByClause = "";
 
     public String build() {
         var builder = new StringBuilder();
@@ -36,8 +36,15 @@ public class SqlBuilder {
         appendRootTable(builder);
         appendJoinClause(builder);
         appendWhereClause(builder);
+        appendGroupByClause(builder);
         appendOrderByClause(builder);
         return builder.toString();
+    }
+
+    private void appendGroupByClause(StringBuilder builder) {
+        if (isNotBlank(this.groupByClause)) {
+            builder.append(this.groupByClause);
+        }
     }
 
     private void appendJoinClause(StringBuilder builder) {
@@ -120,6 +127,10 @@ public class SqlBuilder {
 
     public void addJoinCondition(Condition condition) {
         this.joinClause = this.joinClause + SPACE + ON + SPACE + condition.getSql();
+    }
+
+    public void addGroupByClause(Column column) {
+        this.groupByClause = " GROUP BY " + column.getName();
     }
 
     private static class GenericTable extends AbstractTable<GenericTable> {

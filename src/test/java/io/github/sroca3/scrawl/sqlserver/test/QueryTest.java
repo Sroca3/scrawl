@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 import static io.github.sroca3.scrawl.sqlserver.Query.lhs;
 import static io.github.sroca3.scrawl.sqlserver.Query.select;
+import static io.github.sroca3.scrawl.sqlserver.SqlFunction.count;
 import static io.github.sroca3.scrawl.sqlserver.schema.CityTable.CITY;
 import static io.github.sroca3.scrawl.sqlserver.schema.Permission.PERMISSIONS;
 import static io.github.sroca3.scrawl.sqlserver.schema.RoleTable.ROLE;
@@ -131,6 +132,10 @@ public class QueryTest {
                     .from(USER)
                     .outerJoin(ROLE).on(ROLE.id().eq(USER.roleId()))
                     .getSql()
+            ),
+            Arguments.of(
+                "SELECT Username, COUNT(RoleId) FROM IAM.User GROUP BY RoleId",
+                select(USER.username(), count(USER.roleId())).from(USER).groupBy(USER.roleId()).getSql()
             )
         );
     }
