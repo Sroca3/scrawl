@@ -135,7 +135,34 @@ public class QueryTest {
             ),
             Arguments.of(
                 "SELECT Username, COUNT(RoleId) FROM IAM.User GROUP BY RoleId",
-                select(USER.username(), count(USER.roleId())).from(USER).groupBy(USER.roleId()).getSql()
+                select(USER.username(), count(USER.roleId()))
+                    .from(USER)
+                    .groupBy(USER.roleId()).getSql()
+            ),
+            Arguments.of(
+                "SELECT Username, COUNT(RoleId) FROM IAM.User GROUP BY RoleId HAVING COUNT(RoleId) > :numberOfRoleIds",
+                select(USER.username(), count(USER.roleId()))
+                    .from(USER)
+                    .groupBy(USER.roleId())
+                    .having(count(USER.roleId()).gt(":numberOfRoleIds"))
+                    .getSql()
+            ),
+            Arguments.of(
+                "SELECT Username, COUNT(RoleId) FROM IAM.User GROUP BY RoleId HAVING COUNT(RoleId) > :numberOfRoleIds ORDER BY Username",
+                select(USER.username(), count(USER.roleId()))
+                    .from(USER)
+                    .groupBy(USER.roleId())
+                    .having(count(USER.roleId()).gt(":numberOfRoleIds"))
+                    .orderBy(USER.username())
+                    .getSql()
+            ),
+            Arguments.of(
+                "SELECT Username, COUNT(RoleId) FROM IAM.User GROUP BY RoleId ORDER BY Username",
+                select(USER.username(), count(USER.roleId()))
+                    .from(USER)
+                    .groupBy(USER.roleId())
+                    .orderBy(USER.username())
+                    .getSql()
             )
         );
     }

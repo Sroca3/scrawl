@@ -18,5 +18,5 @@ public interface FromClause extends TerminatingClause {
 
     JoinClause outerJoin(Table<?> table);
 
-    TerminatingClause groupBy(Column column);
+    GroupByClause groupBy(Column column);
 }

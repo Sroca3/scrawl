@@ -6,6 +6,7 @@ import io.github.sroca3.scrawl.sqlserver.schema.Condition;
 import io.github.sroca3.scrawl.sqlserver.schema.SimpleColumn;
 import io.github.sroca3.scrawl.sqlserver.schema.Table;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class SqlBuilder {
     private Parameters parameters = new Parameters();
     private String joinClause = "";
     private String groupByClause = "";
+    private String havingClause = "";
 
     public String build() {
         var builder = new StringBuilder();
@@ -37,8 +39,13 @@ public class SqlBuilder {
         appendJoinClause(builder);
         appendWhereClause(builder);
         appendGroupByClause(builder);
+        appendHavingClause(builder);
         appendOrderByClause(builder);
         return builder.toString();
+    }
+
+    private void appendHavingClause(StringBuilder builder) {
+        builder.append(this.havingClause);
     }
 
     private void appendGroupByClause(StringBuilder builder) {
@@ -131,6 +138,17 @@ public class SqlBuilder {
 
     public void addGroupByClause(Column column) {
         this.groupByClause = " GROUP BY " + column.getName();
+    }
+
+    public void addHavingClause(Condition condition) {
+        this.havingClause = " HAVING " + condition.getSql();
+    }
+
+    public void addOrderByClause(Column[] columns) {
+        this.addOrderByClause(Arrays.stream(columns)
+                                    .map(column -> column.getName())
+                                    .collect(Collectors.toList())
+                                    .toArray(new String[0]));
     }
 
     private static class GenericTable extends AbstractTable<GenericTable> {

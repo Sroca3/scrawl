@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClause, JoinClause, TerminatingClause {
+public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClause, JoinClause, GroupByClause, HavingClause, TerminatingClause {
 
     private final SqlBuilder sqlBuilder;
 
@@ -105,7 +105,7 @@ public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClau
     }
 
     @Override
-    public TerminatingClause groupBy(Column column) {
+    public GroupByClause groupBy(Column column) {
         sqlBuilder.addGroupByClause(column);
         return this;
     }
@@ -124,5 +124,17 @@ public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClau
     @Override
     public Map<String, Object> getParameterMap() {
         return sqlBuilder.getParameterMap();
+    }
+
+    @Override
+    public HavingClause having(Condition condition) {
+        sqlBuilder.addHavingClause(condition);
+        return this;
+    }
+
+    @Override
+    public TerminatingClause orderBy(Column... columns) {
+        sqlBuilder.addOrderByClause(columns);
+        return this;
     }
 }
