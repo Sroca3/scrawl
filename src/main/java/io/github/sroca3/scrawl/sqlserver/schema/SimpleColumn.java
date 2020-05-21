@@ -69,4 +69,11 @@ public class SimpleColumn implements Column {
     public Condition like(String parameter) {
         return new SimpleCondition(getName(), Operator.LIKE.getOperator(), parameter);
     }
+
+    @Override
+    public Column as(String alias) {
+        return new AliasedColumn(this, alias);
+    }
+
+
 }

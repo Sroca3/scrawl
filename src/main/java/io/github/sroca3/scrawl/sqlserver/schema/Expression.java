@@ -22,4 +22,6 @@ public interface Expression {
     Condition ngt(Object parameter);
 
     Condition like(String parameter);
+
+    Column as(String alias);
 }

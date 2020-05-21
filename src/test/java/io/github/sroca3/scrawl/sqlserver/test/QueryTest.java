@@ -163,6 +163,10 @@ public class QueryTest {
                     .groupBy(USER.roleId())
                     .orderBy(USER.username())
                     .getSql()
+            ),
+            Arguments.of(
+                "SELECT COUNT(Id) AS numberOfRoles FROM IAM.Role",
+                select(count(ROLE.id()).as("numberOfRoles")).from(ROLE).getSql()
             )
         );
     }
