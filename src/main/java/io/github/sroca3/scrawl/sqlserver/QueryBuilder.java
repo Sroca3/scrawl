@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClause, JoinClause, GroupByClause, HavingClause, TerminatingClause {
+public class QueryBuilder implements SelectColumnsClause, FromClause, JoinClause, GroupByClause, HavingClause, TerminatingClause {
 
     private final SqlBuilder sqlBuilder;
 
@@ -37,23 +37,6 @@ public class QueryBuilder implements SelectClause, SelectColumnsClause, FromClau
             throw new IllegalArgumentException("Cannot specify blank column names");
         }
         this.sqlBuilder.addColumns(cols);
-    }
-
-    public TerminatingClause one() {
-        sqlBuilder.addColumnNames(List.of("1"));
-        return this;
-    }
-
-    @Override
-    public SelectColumnsClause star() {
-        sqlBuilder.addColumnNames(List.of("*"));
-        return this;
-    }
-
-    @Override
-    public SelectColumnsClause count() {
-        sqlBuilder.addColumnNames(List.of("COUNT(*)"));
-        return this;
     }
 
     @Override

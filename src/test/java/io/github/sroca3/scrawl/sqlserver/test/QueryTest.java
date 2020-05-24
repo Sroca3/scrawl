@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 
 import static io.github.sroca3.scrawl.sqlserver.Query.lhs;
 import static io.github.sroca3.scrawl.sqlserver.Query.select;
+import static io.github.sroca3.scrawl.sqlserver.Query.selectOne;
+import static io.github.sroca3.scrawl.sqlserver.Query.star;
 import static io.github.sroca3.scrawl.sqlserver.SqlFunction.count;
 import static io.github.sroca3.scrawl.sqlserver.schema.CityTable.CITY;
 import static io.github.sroca3.scrawl.sqlserver.schema.Permission.PERMISSIONS;
@@ -19,6 +21,7 @@ import static io.github.sroca3.scrawl.sqlserver.schema.RoleTable.ROLE;
 import static io.github.sroca3.scrawl.sqlserver.schema.UserTable.USER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class QueryTest {
 
@@ -27,31 +30,31 @@ public class QueryTest {
         return Stream.of(
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
-                select().star().from("City").where(lhs("Country").eq(":country")).getSql()
+                select(star()).from("City").where(lhs("Country").eq(":country")).getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
-                select().star().from("City").where(lhs("Country").eq(":country")).getSql()
+                select(star()).from("City").where(lhs("Country").eq(":country")).getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
-                select().star().from("City").where(lhs("Country").eq(":country")).getSql()
+                select(star()).from("City").where(lhs("Country").eq(":country")).getSql()
             ),
             Arguments.of(
                 "SELECT 1",
-                select().one().getSql()
+                selectOne().getSql()
             ),
             Arguments.of(
                 "SELECT * FROM table",
-                select().star().from("table").getSql()
+                select(star()).from("table").getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City",
-                select().star().from(CITY).getSql()
+                select(star()).from(CITY).getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City c",
-                select().star().from(CITY.as("c")).getSql()
+                select(star()).from(CITY.as("c")).getSql()
             ),
             Arguments.of(
                 "SELECT Country, State, City FROM City",
@@ -59,7 +62,7 @@ public class QueryTest {
             ),
             Arguments.of(
                 "SELECT * FROM City ORDER BY CreateDt",
-                select().star().from("City").orderBy("CreateDt").getSql()
+                select(star()).from("City").orderBy("CreateDt").getSql()
             ),
             Arguments.of(
                 "SELECT Country, State, City FROM City ORDER BY State ASC, Country",
@@ -67,7 +70,7 @@ public class QueryTest {
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Country = :country",
-                select().star().from("City").where(lhs("Country").eq(":country")).getSql()
+                select(star()).from("City").where(lhs("Country").eq(":country")).getSql()
             ),
             Arguments.of(
                 "SELECT c.Name FROM City c",
@@ -79,15 +82,15 @@ public class QueryTest {
             ),
             Arguments.of(
                 "SELECT * FROM IAM.Permissions",
-                select().star().from(PERMISSIONS).getSql()
+                select(star()).from(PERMISSIONS).getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Name = :name",
-                select().star().from(CITY).where(CITY.name().eq("Atlanta")).getSql()
+                select(star()).from(CITY).where(CITY.name().eq("Atlanta")).getSql()
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Name = :name OR Name = :name1",
-                select().star()
+                select(star())
                         .from(CITY)
                         .where(
                             CITY.name().eq("Atlanta").or(CITY.name().eq("Baltimore"))
@@ -96,7 +99,7 @@ public class QueryTest {
             ),
             Arguments.of(
                 "SELECT * FROM City WHERE Name = :name OR Name = :name1 AND Name <> :name2",
-                select().star()
+                select(star())
                         .from(CITY)
                         .where(
                             CITY.name().eq("Atlanta")
@@ -134,22 +137,22 @@ public class QueryTest {
                     .getSql()
             ),
             Arguments.of(
-                "SELECT Username, COUNT(RoleId) FROM IAM.User GROUP BY RoleId",
-                select(USER.username(), count(USER.roleId()))
+                "SELECT RoleId, COUNT(Username) FROM IAM.User GROUP BY RoleId",
+                select(USER.roleId(), count(USER.username()))
                     .from(USER)
                     .groupBy(USER.roleId()).getSql()
             ),
             Arguments.of(
-                "SELECT Username, COUNT(RoleId) FROM IAM.User GROUP BY RoleId HAVING COUNT(RoleId) > :numberOfRoleIds",
-                select(USER.username(), count(USER.roleId()))
+                "SELECT RoleId, COUNT(Username) FROM IAM.User GROUP BY RoleId HAVING COUNT(RoleId) > :numberOfRoleIds",
+                select(USER.roleId(), count(USER.username()))
                     .from(USER)
                     .groupBy(USER.roleId())
                     .having(count(USER.roleId()).gt(":numberOfRoleIds"))
                     .getSql()
             ),
             Arguments.of(
-                "SELECT Username, COUNT(RoleId) FROM IAM.User GROUP BY RoleId HAVING COUNT(RoleId) > :numberOfRoleIds ORDER BY Username",
-                select(USER.username(), count(USER.roleId()))
+                "SELECT RoleId, COUNT(Username) FROM IAM.User GROUP BY RoleId HAVING COUNT(RoleId) > :numberOfRoleIds ORDER BY Username",
+                select(USER.roleId(), count(USER.username()))
                     .from(USER)
                     .groupBy(USER.roleId())
                     .having(count(USER.roleId()).gt(":numberOfRoleIds"))
@@ -157,8 +160,8 @@ public class QueryTest {
                     .getSql()
             ),
             Arguments.of(
-                "SELECT Username, COUNT(RoleId) FROM IAM.User GROUP BY RoleId ORDER BY Username",
-                select(USER.username(), count(USER.roleId()))
+                "SELECT RoleId, COUNT(Username) FROM IAM.User GROUP BY RoleId ORDER BY Username",
+                select(USER.roleId(), count(USER.username()))
                     .from(USER)
                     .groupBy(USER.roleId())
                     .orderBy(USER.username())
@@ -181,9 +184,10 @@ public class QueryTest {
 
     @Test
     public void parameterMap() {
-        Map<String, Object> parameters = select().star().from(CITY).where(CITY.name().eq("Atlanta")).getParameterMap();
+        Map<String, Object> parameters = select(star()).from(CITY).where(CITY.name().eq("Atlanta")).getParameterMap();
         assertEquals("name", parameters.keySet().iterator().next());
         assertEquals("Atlanta", parameters.get("name"));
+        assertTrue(selectOne().getParameterMap().isEmpty());
     }
 
     @ParameterizedTest

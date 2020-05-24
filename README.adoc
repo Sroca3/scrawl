@@ -36,7 +36,7 @@ If the library gets in the way of generating specific sql statements, then I mig
 [source,java]
 ----
 // SELECT 1
-select().one().getSql();
+selectOne().getSql();
 ----
 
 === Select Queries
@@ -44,7 +44,7 @@ select().one().getSql();
 [source,java]
 ----
 // SELECT * FROM Table
-select().star().from("Table").getSql();
+select(star()).from("Table").getSql();
 ----
 
 The next examples assume you have a class link:src/test/java/io/github/sroca3/scrawl/sqlserver/schema/CityTable.java[CityTable].
@@ -58,7 +58,7 @@ select(c.columns()).from(c).getSql();
 
 [source,java]
 ----
-var query = select().star().from(CITY).where(CITY.name().eq("Atlanta"))
+var query = select(star()).from(CITY).where(CITY.name().eq("Atlanta"))
 // SELECT * FROM City WHERE Name = :name
 query.getSql();
 // Parameter map: "name" : "Atlanta"

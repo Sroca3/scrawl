@@ -9,6 +9,8 @@ import org.testcontainers.containers.MSSQLServerContainer;
 import java.util.Map;
 
 import static io.github.sroca3.scrawl.sqlserver.Query.select;
+import static io.github.sroca3.scrawl.sqlserver.Query.star;
+import static io.github.sroca3.scrawl.sqlserver.SqlFunction.count;
 import static io.github.sroca3.scrawl.sqlserver.schema.CityTable.CITY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,7 +35,7 @@ public class QueryIT {
 
     @Test
     public void selectWithParameters() {
-        var query = select().star().from(CITY).where(CITY.name().eq(ATLANTA));
+        var query = select(star()).from(CITY).where(CITY.name().eq(ATLANTA));
         Map<String, ?> map = namedParameterJdbcTemplate.queryForMap(query.getSql(), query.getParameterMap());
         assertEquals(1, map.get("Id"));
         assertEquals(ATLANTA, map.get("Name"));
@@ -41,7 +43,7 @@ public class QueryIT {
 
     @Test
     public void selectCountWhereNameLike() {
-        var query = select().count().from(CITY).where(CITY.name().like("B%"));
+        var query = select(count(star())).from(CITY).where(CITY.name().like("B%"));
         Long count = namedParameterJdbcTemplate.queryForObject(query.getSql(), query.getParameterMap(), Long.class);
         assertEquals(2L, count);
     }
