@@ -24,4 +24,6 @@ public interface Expression {
     Condition like(String parameter);
 
     Column as(String alias);
+
+    Condition in(String parameter);
 }

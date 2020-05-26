@@ -170,6 +170,10 @@ public class QueryTest {
             Arguments.of(
                 "SELECT COUNT(Id) AS numberOfRoles FROM IAM.Role",
                 select(count(ROLE.id()).as("numberOfRoles")).from(ROLE).getSql()
+            ),
+            Arguments.of(
+                "SELECT Id FROM IAM.Role WHERE Name IN (:roleNames)",
+                select(ROLE.id()).from(ROLE).where(ROLE.name().in(":roleNames")).getSql()
             )
         );
     }

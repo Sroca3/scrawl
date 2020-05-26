@@ -10,7 +10,8 @@ public enum Operator {
     GTE(">="),
     NLT("!<"),
     NGT("!>"),
-    LIKE("LIKE");
+    LIKE("LIKE"),
+    IN("IN");
     private final String operator;
 
     Operator(String operator) {

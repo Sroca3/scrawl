@@ -75,5 +75,10 @@ public class SimpleColumn implements Column {
         return new AliasedColumn(this, alias);
     }
 
+    @Override
+    public Condition in(String parameter) {
+        return new SimpleCondition(getName(), Operator.IN.getOperator(), parameter);
+    }
+
 
 }

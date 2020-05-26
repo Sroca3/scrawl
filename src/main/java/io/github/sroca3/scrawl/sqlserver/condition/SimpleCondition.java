@@ -1,6 +1,7 @@
 package io.github.sroca3.scrawl.sqlserver.condition;
 
 import io.github.sroca3.scrawl.sqlserver.schema.Condition;
+import io.github.sroca3.scrawl.sqlserver.schema.Operator;
 
 import java.util.Locale;
 
@@ -22,12 +23,18 @@ public class SimpleCondition extends AbstractCondition implements Condition {
                .append(SPACE)
                .append(this.operator)
                .append(SPACE);
+        if (Operator.IN.getOperator().equals(operator)) {
+            builder.append("(");
+        }
         if (this.parameter instanceof String && String.valueOf(this.parameter).startsWith(":")) {
             builder.append(this.parameter);
         } else {
             String parameterName = getParameters().generateParameterName(this.lhs.toLowerCase(Locale.ENGLISH));
             getParameters().addParameter(parameterName, this.parameter);
             builder.append(parameterName);
+        }
+        if (Operator.IN.getOperator().equals(operator)) {
+            builder.append(")");
         }
         return builder.toString();
     }
