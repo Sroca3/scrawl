@@ -29,6 +29,24 @@ Finally, I've had too many experiences where an ORM or a sql building library ge
 Sql building libraries should be like syntactic sugar.
 If the library gets in the way of generating specific sql statements, then I might as well just use a String.
 
+== Dependency Information
+
+=== Maven
+[source,xml]
+----
+<dependency>
+  <groupId>io.github.sroca3</groupId>
+  <artifactId>scrawl</artifactId>
+  <version>0.2.0</version>
+</dependency>
+----
+
+=== Gradle
+[source,groovy]
+----
+implementation 'io.github.sroca3:scrawl:0.2.0'
+----
+
 == Usage
 
 === Validation Query

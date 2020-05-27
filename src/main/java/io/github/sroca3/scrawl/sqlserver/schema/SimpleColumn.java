@@ -1,5 +1,6 @@
 package io.github.sroca3.scrawl.sqlserver.schema;
 
+import io.github.sroca3.scrawl.sqlserver.TerminatingClause;
 import io.github.sroca3.scrawl.sqlserver.condition.DirectCondition;
 import io.github.sroca3.scrawl.sqlserver.condition.SimpleCondition;
 
@@ -78,6 +79,11 @@ public class SimpleColumn implements Column {
     @Override
     public Condition in(String parameter) {
         return new SimpleCondition(getName(), Operator.IN.getOperator(), parameter);
+    }
+
+    @Override
+    public Condition notIn(TerminatingClause terminatingClause) {
+        return new DirectCondition(getName(), Operator.NOT_IN.getOperator(), "(" + terminatingClause.getSql() + ")");
     }
 
 

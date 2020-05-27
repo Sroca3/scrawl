@@ -1,5 +1,8 @@
 package io.github.sroca3.scrawl.sqlserver.schema;
 
+import io.github.sroca3.scrawl.sqlserver.FromClause;
+import io.github.sroca3.scrawl.sqlserver.TerminatingClause;
+
 public interface Expression {
     Condition eq(Column column);
 
@@ -26,4 +29,6 @@ public interface Expression {
     Column as(String alias);
 
     Condition in(String parameter);
+
+    Condition notIn(TerminatingClause terminatingClause);
 }

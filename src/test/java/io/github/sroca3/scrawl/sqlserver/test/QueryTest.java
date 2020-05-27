@@ -1,6 +1,8 @@
 package io.github.sroca3.scrawl.sqlserver.test;
 
 import io.github.sroca3.scrawl.sqlserver.schema.CityTable;
+import io.github.sroca3.scrawl.sqlserver.schema.DepartmentsTable;
+import io.github.sroca3.scrawl.sqlserver.schema.EmployeesTable;
 import io.github.sroca3.scrawl.sqlserver.schema.SimpleColumn;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,6 +18,8 @@ import static io.github.sroca3.scrawl.sqlserver.Query.selectOne;
 import static io.github.sroca3.scrawl.sqlserver.Query.star;
 import static io.github.sroca3.scrawl.sqlserver.SqlFunction.count;
 import static io.github.sroca3.scrawl.sqlserver.schema.CityTable.CITY;
+import static io.github.sroca3.scrawl.sqlserver.schema.DepartmentsTable.DEPARTMENTS;
+import static io.github.sroca3.scrawl.sqlserver.schema.EmployeesTable.EMPLOYEES;
 import static io.github.sroca3.scrawl.sqlserver.schema.Permission.PERMISSIONS;
 import static io.github.sroca3.scrawl.sqlserver.schema.RoleTable.ROLE;
 import static io.github.sroca3.scrawl.sqlserver.schema.UserTable.USER;
@@ -174,6 +178,10 @@ public class QueryTest {
             Arguments.of(
                 "SELECT Id FROM IAM.Role WHERE Name IN (:roleNames)",
                 select(ROLE.id()).from(ROLE).where(ROLE.name().in(":roleNames")).getSql()
+            ),
+            Arguments.of(
+                "SELECT Name FROM Employees WHERE DepartmentId NOT IN (SELECT Id FROM Employees)",
+                select(EMPLOYEES.name()).from(EMPLOYEES).where(EMPLOYEES.departmentId().notIn(select(DEPARTMENTS.id()).from(DEPARTMENTS))).getSql()
             )
         );
     }

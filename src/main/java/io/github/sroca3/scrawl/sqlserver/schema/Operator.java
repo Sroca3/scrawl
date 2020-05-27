@@ -11,7 +11,8 @@ public enum Operator {
     NLT("!<"),
     NGT("!>"),
     LIKE("LIKE"),
-    IN("IN");
+    IN("IN"),
+    NOT_IN("NOT IN");
     private final String operator;
 
     Operator(String operator) {

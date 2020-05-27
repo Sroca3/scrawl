@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'io.github.sroca3'
-version '0.2.0-SNAPSHOT'
+version '0.2.0'
 
 repositories {
     mavenCentral()
@@ -72,8 +72,8 @@ publishing {
             artifact javadocJar
             pom {
                 name = 'Scrawl'
-                description = 'A library sql server sql building'
-                url = 'https://github.com/Sroca3/scrawl'
+                description = 'A sql building library for sql server'
+                url = 'https://gitlab.com/sroca3/scrawl'
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
@@ -88,7 +88,7 @@ publishing {
                     }
                 }
                 scm {
-                    url = 'https://github.com/Sroca3/scrawl'
+                    url = 'https://gitlab.com/sroca3/scrawl'
                 }
             }
             repositories {
