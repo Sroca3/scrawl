@@ -1,0 +1,5 @@
+scrawl:
+  tables:
+    city:
+      - id
+      - name
